@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MovieCatalogue</string>
+    <string name="find_movies_tv_series_and_more">Find Movies, Tv series,\nand more..</string>
+    <string name="spider_man_no_way_home">Spider-Man : No-way-Home</string>
+    <string name="release_date">Release Date</string>
+    <string name="genre">Genre</string>
+    <string name="synopsis">Synopsis</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="movies">Movies</string>
+    <string name="tv_show">TV Show</string>
+    <string name="movies_are_always_updated">Movies are always updated</string>
+    <string name="movie_streaming">Movie Streaming</string>
+    <string name="app">App</string>
+    <string name="imagepreview">imagePreview</string>
+    <string name="imagestar">imageStar</string>
+    <string name="imagetime">imageTime</string>
+</resources>
