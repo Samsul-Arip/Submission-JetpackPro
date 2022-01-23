@@ -7,4 +7,5 @@ import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
 
 class TvShowViewModel(dataRepository: DataRepository): ViewModel(){
     val listTvShow: LiveData<List<DataTvShow>> = dataRepository.getListTvShow()
+
 }

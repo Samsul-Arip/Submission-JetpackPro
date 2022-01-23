@@ -11,11 +11,25 @@ object DummyData {
 
     fun getDummyRemoteMovie(): List<DataMovie> =
         arrayListOf(
-            DataMovie(
-                "438695",
-                "Sing 2",
-                "/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg"
-            )
+            DataMovie("438695", "Sing 2", "/aWeKITRFbbwY8txG5uCj4rMCfSP.jpg"),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
+            DataMovie("0", "", ""),
         )
 
     fun getDummyRemoteTvShows(): List<DataTvShow> =
@@ -24,7 +38,25 @@ object DummyData {
                 "85552",
                 "Euphoria",
                 "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg"
-            )
+            ),
+            DataTvShow("1", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
+            DataTvShow("2", "", ""),
         )
 
     fun getMovieDetail(): DetailMovieResponse =

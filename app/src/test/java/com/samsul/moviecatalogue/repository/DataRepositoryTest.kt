@@ -6,6 +6,7 @@ import com.samsul.moviecatalogue.DummyData
 import com.samsul.moviecatalogue.LiveDataTest
 import com.samsul.moviecatalogue.data.repository.remote.RemoteDataSource
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -20,9 +21,13 @@ class DataRepositoryTest {
 
     private val listMovie = DummyData.getDummyRemoteMovie()
     private val movieId = DummyData.getDummyRemoteMovie()[0].id
+    private val movieTitle = DummyData.getDummyRemoteMovie()[0].titleMovie
+    private val movieImagePoster = DummyData.getDummyRemoteMovie()[0].imagePoster
 
     private val listTvShow = DummyData.getDummyRemoteTvShows()
     private val tvId = DummyData.getDummyRemoteTvShows()[0].id
+    private val tvTitle = DummyData.getDummyRemoteTvShows()[0].titleTv
+    private val imagePoster = DummyData.getDummyRemoteTvShows()[0].imagePoster
 
     private val detailMovie = DummyData.getMovieDetail()
     private val detailTvShow = DummyData.getTvShowDetail()
@@ -65,6 +70,11 @@ class DataRepositoryTest {
         }.`when`(remoteDataSource).getDetailMovie(
             eqOfT(movieId),
             anyOfT(RemoteDataSource.DetailMovieCallback::class.java))
+
+        assertEquals(detailMovie.id, movieId)
+        assertEquals(detailMovie.title, movieTitle)
+        assertEquals(detailMovie.imagePath, movieImagePoster)
+        assertNotNull(detailMovie)
     }
 
     @Test
@@ -73,9 +83,11 @@ class DataRepositoryTest {
             val callback = it.arguments[0] as RemoteDataSource.DetailTvCallback
             callback.onResponse(detailTvShow)
             null
-        }.`when`(remoteDataSource).getDetailTv(
-            eqOfT(tvId),
-            anyOfT(RemoteDataSource.DetailTvCallback::class.java)
-        )
+        }.`when`(remoteDataSource).getDetailTv(eqOfT(tvId), anyOfT(RemoteDataSource.DetailTvCallback::class.java))
+
+        assertEquals(detailTvShow.id, tvId)
+        assertEquals(detailTvShow.title, tvTitle)
+        assertEquals(detailTvShow.imagePath, imagePoster)
+        assertNotNull(detailTvShow)
     }
 }
