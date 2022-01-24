@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.samsul.moviecatalogue.R
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
+import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
 import com.samsul.moviecatalogue.databinding.FilmItemBinding
 import com.squareup.picasso.Picasso
 
 class TvShowAdapter(private val context: Context
 ) : RecyclerView.Adapter<TvShowAdapter.TvViewHolder>() {
 
-    private val listMovie = ArrayList<DataTvShow>()
+    private val listTvShow = ArrayList<DataLocalTvShow>()
     private var itemClickCallback: ItemClickCallback? = null
 
     fun setOnItemClickCallBack(itemClick: ItemClickCallback) {
@@ -23,11 +24,11 @@ class TvShowAdapter(private val context: Context
     inner class TvViewHolder(private val binding: FilmItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: DataTvShow) {
+        fun bind(data: DataLocalTvShow) {
             with(binding) {
-                tvTitle.text = data.titleTv
+                tvTitle.text = data.titleTvShow
                 Picasso.get()
-                    .load("http://image.tmdb.org/t/p/w500${data.imagePoster}")
+                    .load("http://image.tmdb.org/t/p/w500${data.imageTvShow}")
                     .placeholder(R.drawable.ic_refresh)
                     .error(R.drawable.ic_error)
                     .into(roundedImage)
@@ -48,20 +49,20 @@ class TvShowAdapter(private val context: Context
     }
 
     override fun onBindViewHolder(holder: TvShowAdapter.TvViewHolder, position: Int) {
-        holder.bind(listMovie[position])
+        holder.bind(listTvShow[position])
     }
 
-    override fun getItemCount(): Int = listMovie.size
+    override fun getItemCount(): Int = listTvShow.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListTvShow(listMovie: List<DataTvShow>) {
-        this.listMovie.clear()
-        this.listMovie.addAll(listMovie)
+    fun setListTvShow(listMovie: List<DataLocalTvShow>) {
+        this.listTvShow.clear()
+        this.listTvShow.addAll(listMovie)
         notifyDataSetChanged()
     }
 
     interface ItemClickCallback {
-        fun onClickCallback(data: DataTvShow)
+        fun onClickCallback(data: DataLocalTvShow)
     }
 
 }

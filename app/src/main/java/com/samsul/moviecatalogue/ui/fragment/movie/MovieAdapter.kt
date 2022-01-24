@@ -6,23 +6,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.samsul.moviecatalogue.R
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataMovie
+import com.samsul.moviecatalogue.data.local.entity.DataLocalMovie
+import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
 import com.samsul.moviecatalogue.databinding.FilmItemBinding
 import com.squareup.picasso.Picasso
 
 class MovieAdapter(private val context: Context)
     : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    private val listMovie = ArrayList<DataMovie>()
+    private val listMovie = ArrayList<DataLocalMovie>()
     private var itemClickCallback: ItemClickCallback? = null
 
-    fun setOnItemClickcallback(itemclick: ItemClickCallback) {
-        this.itemClickCallback = itemclick
+    fun setOnItemClickCallback(itemClick: ItemClickCallback) {
+        this.itemClickCallback = itemClick
     }
 
     inner class MovieViewHolder(private val binding: FilmItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: DataMovie) {
+        fun bind(data: DataLocalMovie) {
             with(binding) {
                 tvTitle.text = data.titleMovie
                 Picasso.get()
@@ -53,14 +54,14 @@ class MovieAdapter(private val context: Context)
     override fun getItemCount(): Int = listMovie.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListMovie(listMovie: List<DataMovie>) {
+    fun setListMovie(listMovie: List<DataLocalMovie>) {
         this.listMovie.clear()
         this.listMovie.addAll(listMovie)
         notifyDataSetChanged()
     }
 
     interface ItemClickCallback {
-        fun onClickCallback(data: DataMovie)
+        fun onClickCallback(data: DataLocalMovie)
     }
 
 }

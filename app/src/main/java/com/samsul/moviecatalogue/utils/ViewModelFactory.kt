@@ -1,9 +1,11 @@
 package com.samsul.moviecatalogue.utils
 
+import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.samsul.moviecatalogue.data.repository.DataRepository
-import com.samsul.moviecatalogue.inject.Injection
+import com.samsul.moviecatalogue.di.Injection
 import com.samsul.moviecatalogue.ui.detail.DetailViewModel
 import com.samsul.moviecatalogue.ui.fragment.movie.MovieViewModel
 import com.samsul.moviecatalogue.ui.fragment.tvshow.TvShowViewModel
@@ -13,9 +15,9 @@ class ViewModelFactory(private val dataRepository: DataRepository): ViewModelPro
     companion object {
         @Volatile
         private var instance: ViewModelFactory? = null
-        fun getInstance(): ViewModelFactory =
+        fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideDataRepository()).apply {
+                instance ?: ViewModelFactory(Injection.provideDataRepository(context)!!).apply {
                     instance = this
                 }
             }

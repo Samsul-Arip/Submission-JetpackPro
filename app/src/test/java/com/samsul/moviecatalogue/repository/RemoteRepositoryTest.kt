@@ -4,14 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.eq
 import com.samsul.moviecatalogue.DummyData
 import com.samsul.moviecatalogue.LiveDataTest
-import com.samsul.moviecatalogue.data.repository.remote.RemoteDataSource
+import com.samsul.moviecatalogue.data.remote.RemoteDataSource
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
 
-class DataRepositoryTest {
+class RemoteRepositoryTest {
 
     @Rule
     @JvmField

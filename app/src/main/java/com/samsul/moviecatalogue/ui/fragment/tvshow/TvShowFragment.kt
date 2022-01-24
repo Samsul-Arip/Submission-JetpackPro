@@ -6,15 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.samsul.moviecatalogue.R
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
 import com.samsul.moviecatalogue.databinding.FragmentTvShowBinding
 import com.samsul.moviecatalogue.ui.detail.DetailActivity
-import com.samsul.moviecatalogue.ui.fragment.movie.MovieViewModel
 import com.samsul.moviecatalogue.utils.ViewModelFactory
+import com.samsul.moviecatalogue.vo.Status
 
 class TvShowFragment : Fragment() {
 
@@ -22,6 +23,11 @@ class TvShowFragment : Fragment() {
     private val binding get() = _binding
 
     private lateinit var tvShowAdapter: TvShowAdapter
+
+    private val viewModelTvShow by lazy {
+        val factory = ViewModelFactory.getInstance(requireContext())
+        ViewModelProvider(this, factory)[TvShowViewModel::class.java]
+    }
 
 
     override fun onCreateView(
@@ -36,14 +42,27 @@ class TvShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(activity != null) {
-            val factory = ViewModelFactory.getInstance()
-            val viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
             tvShowAdapter = TvShowAdapter(requireContext())
-            binding?.loadingBar?.visibility = View.VISIBLE
-            viewModel.listTvShow.observe(viewLifecycleOwner, { tvShow ->
-                binding?.loadingBar?.visibility = View.GONE
-                tvShowAdapter.setListTvShow(tvShow)
+
+            viewModelTvShow.listTvShow().observe(viewLifecycleOwner, {
+                if(it != null) {
+                    when(it.status) {
+                        Status.LOADING -> {
+                            binding?.loadingBar?.visibility = View.VISIBLE
+                        }
+                        Status.SUCCESS -> {
+                            binding?.loadingBar?.visibility = View.GONE
+                            tvShowAdapter.setListTvShow(it.data!!)
+                            tvShowAdapter.notifyDataSetChanged()
+                        }
+                        Status.ERROR -> {
+                            binding?.loadingBar?.visibility = View.GONE
+                            Toast.makeText(requireContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
+
 
             binding?.rvTvShow?.apply {
                 layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
@@ -52,9 +71,9 @@ class TvShowFragment : Fragment() {
             }
 
             tvShowAdapter.setOnItemClickCallBack(object : TvShowAdapter.ItemClickCallback{
-                override fun onClickCallback(data: DataTvShow) {
+                override fun onClickCallback(data: DataLocalTvShow) {
                     val intent = Intent(requireContext(), DetailActivity::class.java)
-                    intent.putExtra(DetailActivity.ID_TV_SHOW, data.id)
+                    intent.putExtra(DetailActivity.ID_TV_SHOW, data.tvShowId)
                     startActivity(intent)
                 }
 

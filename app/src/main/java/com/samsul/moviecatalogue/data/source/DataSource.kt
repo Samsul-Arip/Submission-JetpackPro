@@ -1,14 +1,18 @@
 package com.samsul.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataMovie
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.ApiResponse
+import com.samsul.moviecatalogue.data.local.entity.DataLocalMovie
+import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
+import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.vo.Resource
 
 interface DataSource {
-    fun getListMovie(): LiveData<List<DataMovie>>
-    fun getListTvShow(): LiveData<List<DataTvShow>>
-    fun getDetailMovie(id: String): LiveData<DetailMovieResponse>
-    fun getDetailTvShow(id: String): LiveData<DetailTvShowResponse>
+    fun getListMovie(): LiveData<Resource<List<DataLocalMovie>>>
+    fun getListTvShow(): LiveData<Resource<List<DataLocalTvShow>>>
+    fun getDetailMovie(id: String): LiveData<Resource<DataLocalMovie>>
+    fun getDetailTvShow(id: String): LiveData<Resource<DataLocalTvShow>>
 }

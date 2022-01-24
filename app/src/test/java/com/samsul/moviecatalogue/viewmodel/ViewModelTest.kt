@@ -1,21 +1,18 @@
 package com.samsul.moviecatalogue.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.samsul.moviecatalogue.DummyData
-import com.samsul.moviecatalogue.LiveDataTest
-import com.samsul.moviecatalogue.data.repository.DataRepository
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataMovie
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.repository.RemoteRepository
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
+import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
 import com.samsul.moviecatalogue.ui.detail.DetailViewModel
 import com.samsul.moviecatalogue.ui.fragment.movie.MovieViewModel
 import com.samsul.moviecatalogue.ui.fragment.tvshow.TvShowViewModel
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNull
 import junit.framework.TestCase.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -35,7 +32,7 @@ class ViewModelTest {
     private var viewModelMovie: MovieViewModel? = null
     private var viewModelTvShow: TvShowViewModel? = null
     private var viewModelDetailMov: DetailViewModel? = null
-    private var dataRepository = mock(DataRepository::class.java)
+    private var dataRepository = mock(RemoteRepository::class.java)
 
     @Mock
     private lateinit var observerTvShow: Observer<List<DataTvShow>>

@@ -1,9 +1,9 @@
 package com.samsul.moviecatalogue.network
 
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.MovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.TvShowResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.MovieResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.TvShowResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

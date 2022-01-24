@@ -2,11 +2,11 @@ package com.samsul.moviecatalogue.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.samsul.moviecatalogue.data.repository.remote.RemoteDataSource
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataMovie
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.remote.RemoteDataSource
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
+import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
 import com.samsul.moviecatalogue.data.source.DataSource
 
 class DummyDataRepository (private val remoteDataSource: RemoteDataSource): DataSource {

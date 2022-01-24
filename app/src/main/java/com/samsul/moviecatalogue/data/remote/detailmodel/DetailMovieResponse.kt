@@ -1,4 +1,4 @@
-package com.samsul.moviecatalogue.data.repository.remote.detailmodel
+package com.samsul.moviecatalogue.data.remote.detailmodel
 
 import com.google.gson.annotations.SerializedName
 

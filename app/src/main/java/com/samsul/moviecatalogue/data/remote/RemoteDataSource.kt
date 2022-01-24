@@ -1,12 +1,18 @@
-package com.samsul.moviecatalogue.data.repository.remote
+package com.samsul.moviecatalogue.data.remote
 
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.samsul.moviecatalogue.BuildConfig
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.*
+import com.samsul.moviecatalogue.data.ApiResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
+import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.remote.listmodel.MovieResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.TvShowResponse
 import com.samsul.moviecatalogue.network.ApiConfig
 import com.samsul.moviecatalogue.utils.EspressoIdlingResource
 import retrofit2.Call
@@ -30,8 +36,9 @@ open class RemoteDataSource {
             }
     }
 
-    fun getListMovie(listMovieCallBack: ListMovieCallback) {
+    fun getListMovie(): LiveData<ApiResponse<List<DataMovie>>> {
         EspressoIdlingResource.increment()
+        val movies = MutableLiveData<ApiResponse<List<DataMovie>>>()
         handler.postDelayed({
             ApiConfig.getApiEndPoint().getListMovies(apiKey)
                 .enqueue(object : Callback<MovieResponse> {
@@ -40,7 +47,7 @@ open class RemoteDataSource {
                         response: Response<MovieResponse>
                     ) {
                         if(response.isSuccessful && response.code() == 200) {
-                            listMovieCallBack.onResponse(response.body()!!.result)
+                            movies.postValue(ApiResponse.success(response.body()!!.result))
                             EspressoIdlingResource.decrement()
                         } else {
                             EspressoIdlingResource.decrement()
@@ -55,9 +62,12 @@ open class RemoteDataSource {
 
                 })
         }, TIME_LIMITS_DELAY)
+
+        return movies
     }
-    fun getListTvShows(listTvShowCallback: ListTvShowCallback) {
+    fun getListTvShows(): LiveData<ApiResponse<List<DataTvShow>>> {
         EspressoIdlingResource.increment()
+        val tvShows = MutableLiveData<ApiResponse<List<DataTvShow>>>()
         handler.postDelayed({
             ApiConfig.getApiEndPoint().getListTvShows(apiKey)
                 .enqueue(object : Callback<TvShowResponse> {
@@ -66,7 +76,7 @@ open class RemoteDataSource {
                         response: Response<TvShowResponse>
                     ) {
                         if(response.isSuccessful && response.code() == 200) {
-                            listTvShowCallback.onResponse(response.body()!!.result)
+                            tvShows.postValue(ApiResponse.success(response.body()!!.result))
                             EspressoIdlingResource.decrement()
                         } else {
                             EspressoIdlingResource.decrement()
@@ -81,10 +91,12 @@ open class RemoteDataSource {
 
                 })
         }, TIME_LIMITS_DELAY)
+        return tvShows
     }
 
-    fun getDetailMovie(id: String,detailMovieCallback: DetailMovieCallback) {
+    fun getDetailMovie(id: String): LiveData<ApiResponse<DetailMovieResponse>> {
         EspressoIdlingResource.increment()
+        val resultDetail = MutableLiveData<ApiResponse<DetailMovieResponse>>()
         handler.postDelayed({
             ApiConfig.getApiEndPoint().getDetailMovie(id, apiKey)
                 .enqueue(object : Callback<DetailMovieResponse> {
@@ -93,7 +105,7 @@ open class RemoteDataSource {
                         response: Response<DetailMovieResponse>
                     ) {
                         if(response.isSuccessful && response.code() == 200) {
-                            detailMovieCallback.onResponse(response.body()!!)
+                            resultDetail.postValue(ApiResponse.success(response.body()!!))
                             EspressoIdlingResource.decrement()
                         } else {
                             EspressoIdlingResource.decrement()
@@ -108,10 +120,13 @@ open class RemoteDataSource {
 
                 })
         }, TIME_LIMITS_DELAY)
+
+        return resultDetail
     }
 
-    fun getDetailTv(id: String, detailTvCallback: DetailTvCallback) {
+    fun getDetailTv(id: String): LiveData<ApiResponse<DetailTvShowResponse>>{
         EspressoIdlingResource.increment()
+        val detailTvShow = MutableLiveData<ApiResponse<DetailTvShowResponse>>()
         handler.postDelayed({
             ApiConfig.getApiEndPoint().getDetailTvShow(id, apiKey)
                 .enqueue(object : Callback<DetailTvShowResponse>{
@@ -120,7 +135,7 @@ open class RemoteDataSource {
                         response: Response<DetailTvShowResponse>
                     ) {
                         if(response.isSuccessful && response.code() == 200) {
-                            detailTvCallback.onResponse(response.body()!!)
+                            detailTvShow.postValue(ApiResponse.success(response.body()!!))
                             EspressoIdlingResource.decrement()
                         } else {
                             EspressoIdlingResource.decrement()
@@ -135,27 +150,29 @@ open class RemoteDataSource {
 
                 })
         }, TIME_LIMITS_DELAY)
+
+        return detailTvShow
     }
 
     fun showLogs(message: String) {
         Log.d(TAG, message)
     }
 
-    interface ListMovieCallback {
-        fun onResponse(movieResponse: List<DataMovie>)
-    }
-
-    interface ListTvShowCallback {
-        fun onResponse(tvResponse: List<DataTvShow>)
-    }
-
-    interface DetailMovieCallback {
-        fun onResponse(detailMovieResponse: DetailMovieResponse)
-    }
-
-    interface DetailTvCallback {
-        fun onResponse(detailTvResponse: DetailTvShowResponse)
-    }
+//    interface ListMovieCallback {
+//        fun onResponse(movieResponse: List<DataMovie>)
+//    }
+//
+//    interface ListTvShowCallback {
+//        fun onResponse(tvResponse: List<DataTvShow>)
+//    }
+//
+//    interface DetailMovieCallback {
+//        fun onResponse(detailMovieResponse: DetailMovieResponse)
+//    }
+//
+//    interface DetailTvCallback {
+//        fun onResponse(detailTvResponse: DetailTvShowResponse)
+//    }
 
 
 

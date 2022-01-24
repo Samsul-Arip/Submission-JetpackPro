@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -38,6 +39,18 @@ android {
     }
 }
 
+ext {
+    //room
+    roomVersion = "2.4.1"
+    //networking
+    retrofitVersion = "2.9.0"
+    //testing
+    mockitoVersion = "3.6.0"
+    espressoVersion = "3.4.0"
+    testVersion = "1.4.0"
+    lifeCycleVersion = "2.4.0"
+}
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -50,35 +63,39 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    testImplementation "org.mockito:mockito-core:3.6.0"
-    testImplementation "org.mockito:mockito-inline:3.6.0"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    implementation "androidx.test.espresso:espresso-idling-resource:3.4.0"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.4.0"
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.test:runner:1.4.0"
-    androidTestImplementation "androidx.test:rules:1.4.0"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$testVersion"
+    androidTestImplementation "androidx.test:rules:$testVersion"
 
 
     //viewmodel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleVersion"
     implementation "androidx.activity:activity-ktx:1.4.0"
 
     //liveData
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifeCycleVersion"
 
     //image
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //networking
-    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
 
+    //room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
+    //pagging
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.0'
 }
+

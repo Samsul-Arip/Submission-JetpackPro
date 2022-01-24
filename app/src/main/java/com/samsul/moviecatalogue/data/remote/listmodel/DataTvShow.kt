@@ -1,4 +1,4 @@
-package com.samsul.moviecatalogue.data.repository.remote.listmodel
+package com.samsul.moviecatalogue.data.remote.listmodel
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

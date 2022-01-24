@@ -1,10 +1,10 @@
 package com.samsul.moviecatalogue
 
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DataGenre
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.repository.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataMovie
-import com.samsul.moviecatalogue.data.repository.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.remote.detailmodel.DataGenre
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
+import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
+import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
+import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
 
 
 object DummyData {
