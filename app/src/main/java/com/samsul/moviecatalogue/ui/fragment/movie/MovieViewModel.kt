@@ -8,7 +8,6 @@ import com.samsul.moviecatalogue.data.repository.DataRepository
 import com.samsul.moviecatalogue.vo.Resource
 
 class MovieViewModel(private val dataRepository: DataRepository): ViewModel() {
-
-    fun listMovie(): LiveData<Resource<List<DataLocalMovie>>> = dataRepository.getMovies()
-
+    fun listMoviePaged(sort: String): LiveData<Resource<PagedList<DataLocalMovie>>> =
+        dataRepository.getMovieAsPaged(sort)
 }

@@ -1,18 +1,23 @@
 package com.samsul.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
-import com.samsul.moviecatalogue.data.ApiResponse
+import androidx.paging.PagedList
 import com.samsul.moviecatalogue.data.local.entity.DataLocalMovie
 import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
-import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
-import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.local.entity.LocalDetailMovie
+import com.samsul.moviecatalogue.data.local.entity.LocalDetailTvShow
 import com.samsul.moviecatalogue.vo.Resource
 
 interface DataSource {
-    fun getListMovie(): LiveData<Resource<List<DataLocalMovie>>>
-    fun getListTvShow(): LiveData<Resource<List<DataLocalTvShow>>>
-    fun getDetailMovie(id: String): LiveData<Resource<DataLocalMovie>>
-    fun getDetailTvShow(id: String): LiveData<Resource<DataLocalTvShow>>
+
+    fun getDetailMovie(movieId: Int): LiveData<Resource<LocalDetailMovie>>?
+    fun setFavoriteMovie(movie: DataLocalMovie, isFavorite: Boolean)
+    fun getMovieAsPaged(sort: String): LiveData<Resource<PagedList<DataLocalMovie>>>
+    fun getMovieAsPagedBookmark(): LiveData<PagedList<DataLocalMovie>>
+
+
+    fun getDetailTvShow(tvShowId: Int): LiveData<Resource<LocalDetailTvShow>>?
+    fun setFavoriteTvShow(tvShow: DataLocalTvShow, isFavorite: Boolean)
+    fun getTvShowAsPaged(sort: String): LiveData<Resource<PagedList<DataLocalTvShow>>>
+    fun getTvShowAsPagedBookmark(): LiveData<PagedList<DataLocalTvShow>>
 }

@@ -30,13 +30,13 @@ interface ApiEndPoint {
 
     @GET("movie/{id}")
     fun getDetailMovie(
-        @Path("id") id: String,
+        @Path("id") id: Int,
         @Query("api_key") apiKey: String
     ): Call<DetailMovieResponse>
 
     @GET("tv/{id}")
     fun getDetailTvShow(
-        @Path("id") id: String,
+        @Path("id") id: Int,
         @Query("api_key") apiKey: String
     ): Call<DetailTvShowResponse>
 }

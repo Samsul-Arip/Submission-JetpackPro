@@ -1,5 +1,6 @@
 package com.samsul.moviecatalogue.ui.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayoutMediator
@@ -15,6 +16,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setViewPager2()
+
+        binding.imgCollection.setOnClickListener {
+            startActivity(Intent(this@HomeActivity, HomeBookmarkActivity::class.java))
+        }
     }
 
     private fun setViewPager2() {

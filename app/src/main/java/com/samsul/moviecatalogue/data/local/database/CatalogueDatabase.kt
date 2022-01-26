@@ -6,13 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.samsul.moviecatalogue.data.local.entity.DataLocalMovie
 import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
+import com.samsul.moviecatalogue.data.local.entity.LocalDetailMovie
+import com.samsul.moviecatalogue.data.local.entity.LocalDetailTvShow
 
 @Database(
-    entities = [DataLocalMovie::class, DataLocalTvShow::class],
+    entities = [
+        DataLocalMovie::class,
+        DataLocalTvShow::class,
+        LocalDetailMovie::class,
+        LocalDetailTvShow::class
+    ],
     version = 1,
     exportSchema = false
 )
-abstract class CatalogueDatabase: RoomDatabase() {
+abstract class CatalogueDatabase : RoomDatabase() {
 
     abstract fun catalogueDao(): CatalogueDao
 

@@ -9,6 +9,6 @@ data class DetailMovieResponse(
     @SerializedName("overview") val synopsis: String?,
     @SerializedName("title") val title: String?,
     @SerializedName("release_date") val releaseDate: String?,
-    @SerializedName("genres") val genre: List<DataGenre>?,
+    @SerializedName("status") val status: String?,
     @SerializedName("runtime") val time: String?,
 )

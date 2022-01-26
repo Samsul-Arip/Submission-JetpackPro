@@ -1,9 +1,7 @@
-package com.samsul.moviecatalogue.data.source
+package com.samsul.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.samsul.moviecatalogue.data.ApiResponse
-import com.samsul.moviecatalogue.data.StatusResponse
 import com.samsul.moviecatalogue.utils.AppExecutors
 import com.samsul.moviecatalogue.vo.Resource
 

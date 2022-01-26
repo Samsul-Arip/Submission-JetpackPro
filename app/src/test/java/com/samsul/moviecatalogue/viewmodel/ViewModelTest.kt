@@ -3,15 +3,18 @@ package com.samsul.moviecatalogue.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.samsul.moviecatalogue.DummyData
-import com.samsul.moviecatalogue.data.repository.RemoteRepository
-import com.samsul.moviecatalogue.data.remote.detailmodel.DetailMovieResponse
-import com.samsul.moviecatalogue.data.remote.detailmodel.DetailTvShowResponse
-import com.samsul.moviecatalogue.data.remote.listmodel.DataMovie
-import com.samsul.moviecatalogue.data.remote.listmodel.DataTvShow
+import com.samsul.moviecatalogue.data.local.entity.DataLocalMovie
+import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
+import com.samsul.moviecatalogue.data.local.entity.LocalDetailMovie
+import com.samsul.moviecatalogue.data.local.entity.LocalDetailTvShow
+import com.samsul.moviecatalogue.data.repository.DataRepository
 import com.samsul.moviecatalogue.ui.detail.DetailViewModel
 import com.samsul.moviecatalogue.ui.fragment.movie.MovieViewModel
 import com.samsul.moviecatalogue.ui.fragment.tvshow.TvShowViewModel
+import com.samsul.moviecatalogue.utils.SortUtils
+import com.samsul.moviecatalogue.vo.Resource
 import junit.framework.Assert.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.junit.Before
@@ -32,19 +35,33 @@ class ViewModelTest {
     private var viewModelMovie: MovieViewModel? = null
     private var viewModelTvShow: TvShowViewModel? = null
     private var viewModelDetailMov: DetailViewModel? = null
-    private var dataRepository = mock(RemoteRepository::class.java)
+
+    private val listMovie = DummyData.getDummyRemoteMovie()[0]
+    private val listTvShows = DummyData.getDummyRemoteTvShows()[0]
+    private val movieId = listMovie.movieId
+    private val tvShowId = listTvShows.tvShowId
+
+
+
+    private var dataRepository = mock(DataRepository::class.java)
 
     @Mock
-    private lateinit var observerTvShow: Observer<List<DataTvShow>>
+    private lateinit var observerTvShows: Observer<Resource<PagedList<DataLocalTvShow>>>
 
     @Mock
-    private lateinit var observerMovie: Observer<List<DataMovie>>
+    private lateinit var observerMovies: Observer<Resource<PagedList<DataLocalMovie>>>
 
     @Mock
-    private lateinit var observerDetailTv: Observer<DetailTvShowResponse>
+    private lateinit var observerDetailTv: Observer<Resource<LocalDetailTvShow>>
 
     @Mock
-    private lateinit var observerDetailMovie: Observer<DetailMovieResponse>
+    private lateinit var observerDetailMovie: Observer<Resource<LocalDetailMovie>>
+
+    @Mock
+    private lateinit var pagedListMovie: PagedList<DataLocalMovie>
+
+    @Mock
+    private lateinit var pagedListTvShow: PagedList<DataLocalTvShow>
 
     @Before
     fun setUp() {
@@ -55,72 +72,94 @@ class ViewModelTest {
 
     @Test
     fun getMovie() {
-        val dummyMovie = DummyData.getDummyRemoteMovie()
-        val movie = MutableLiveData<List<DataMovie>>()
-        movie.value = dummyMovie
-        lenient().`when`(dataRepository.getListMovie()).thenReturn(movie)
-        verify(dataRepository).getListMovie()
-        assertNotNull(dummyMovie)
-        assertEquals(19, dummyMovie.size)
+        val dummyData = pagedListMovie
+        val movies = MutableLiveData<Resource<PagedList<DataLocalMovie>>>()
+        movies.value = Resource.success(dummyData)
+        `when`(dataRepository.getMovieAsPaged(SortUtils.NEWEST)).thenReturn(movies)
+        val result = viewModelMovie?.listMoviePaged(SortUtils.NEWEST)
+        verify(dataRepository).getMovieAsPaged(SortUtils.NEWEST)
 
-        viewModelMovie?.listMovie?.observeForever(observerMovie)
-        verify(observerMovie, times(0)).onChanged(dummyMovie)
+        val expectedValue = movies.value
+        val actualValue = viewModelMovie?.listMoviePaged(SortUtils.NEWEST)?.value
 
+        assertNotNull(result)
+        assertEquals(19, DummyData.getDummyRemoteMovie().size)
+        assertEquals(expectedValue, actualValue)
+
+        viewModelMovie?.listMoviePaged(SortUtils.NEWEST)?.observeForever(observerMovies)
+        verify(observerMovies).onChanged(movies.value)
     }
 
     @Test
     fun getTvShow() {
-        val dummyTv = DummyData.getDummyRemoteTvShows()
-        val tvShow = MutableLiveData<List<DataTvShow>>()
-        tvShow.value = dummyTv
-        lenient().`when`(dataRepository.getListTvShow()).thenReturn(tvShow)
-        verify(dataRepository).getListTvShow()
+        val dummyData = pagedListTvShow
+        val tvShow = MutableLiveData<Resource<PagedList<DataLocalTvShow>>>()
+        tvShow.value = Resource.success(dummyData)
+        `when`(dataRepository.getTvShowAsPaged(SortUtils.NEWEST)).thenReturn(tvShow)
+        val result = viewModelTvShow?.listTvShowPaged(SortUtils.NEWEST)
+        verify(dataRepository).getTvShowAsPaged(SortUtils.NEWEST)
 
-        assertNotNull(dummyTv)
-        assertEquals(19, dummyTv.size )
-        viewModelTvShow?.listTvShow?.observeForever(observerTvShow)
-        verify(observerTvShow, times(0)).onChanged(dummyTv)
+        val expectedValue = tvShow.value
+        val actualValue = viewModelTvShow?.listTvShowPaged(SortUtils.NEWEST)?.value
+
+        assertNotNull(result)
+        assertEquals(19, DummyData.getDummyRemoteTvShows().size)
+        assertEquals(expectedValue, actualValue)
+
+        viewModelTvShow?.listTvShowPaged(SortUtils.NEWEST)?.observeForever(observerTvShows)
+        verify(observerTvShows).onChanged(tvShow.value)
     }
 
     @Test
     fun getDetailMovie() {
-        val dummyDetailMovie = DummyData.getMovieDetail()
-        val movie = MutableLiveData<DataMovie>()
-        val movies = MutableLiveData<DetailMovieResponse>()
-        movie.value = DummyData.getDummyRemoteMovie()[0]
-        movies.value = dummyDetailMovie
-        `when`(dataRepository.getDetailMovie(movie.value!!.id)).thenReturn(movies)
-        verify(dataRepository).getListMovie()
+        val dummyData = Resource.success(DummyData.getMovieDetail())
+        val movie = MutableLiveData<Resource<LocalDetailMovie>>()
+        movie.value = dummyData
+        viewModelDetailMov?.setDetailSelectedMovie(movieId!!)
 
-        assertNotNull(dummyDetailMovie)
-        assertEquals(movie.value!!.id, viewModelDetailMov?.getDetailMovie(movie.value!!.id)?.value?.id)
-        assertEquals(movie.value!!.titleMovie, viewModelDetailMov?.getDetailMovie(movie.value!!.id)?.value?.title)
-        assertEquals(movie.value!!.imagePoster, viewModelDetailMov?.getDetailMovie(movie.value!!.id)?.value?.imagePath)
+        `when`(dataRepository.getDetailMovie(movieId!!)).thenReturn(movie)
+        val result = viewModelDetailMov?.getMovie()?.value?.data
+        verify(dataRepository).getDetailMovie(movieId)
 
-        viewModelDetailMov?.getDetailMovie(movie.value!!.id)?.observeForever(observerDetailMovie)
-        verify(observerDetailMovie).onChanged(dummyDetailMovie)
+        assertNotNull(result)
 
+        assertEquals(listMovie.movieId, result?.movieId)
+        assertEquals(listMovie.titleMovie, result?.titleMovie)
+        assertEquals(listMovie.imagePoster, result?.imagePoster)
+        assertEquals("4.8", result?.rating)
+        assertEquals("Released", result?.genre)
+        assertEquals("2022-01-13", result?.releaseDate)
+        assertEquals("94", result?.time)
+        assertEquals("Mystery writer Grace Miller has killer instincts when it comes to motive - and she'll need every bit of expertise to help solve her sister's murder.", result?.synopsis)
+
+        viewModelDetailMov?.getMovie()?.observeForever(observerDetailMovie)
+        verify(observerDetailMovie).onChanged(dummyData)
     }
 
     @Test
     fun getDetailTvShow() {
-        val dummyDetailTv = DummyData.getTvShowDetail()
-        val tvShow = MutableLiveData<DataTvShow>()
-        tvShow.value = DummyData.getDummyRemoteTvShows()[0]
-        val tvDetail = MutableLiveData<DetailTvShowResponse>()
-        tvDetail.value = dummyDetailTv
+        val dummyData = Resource.success(DummyData.getTvShowDetail())
+        val tvShow = MutableLiveData<Resource<LocalDetailTvShow>>()
+        tvShow.value = dummyData
+        viewModelDetailMov?.setDetailSelectedTvShow(tvShowId!!)
 
-        `when`(dataRepository.getDetailTvShow(tvShow.value!!.id)).thenReturn(tvDetail)
-        verify(dataRepository).getListTvShow()
+        `when`(dataRepository.getDetailTvShow(tvShowId!!)).thenReturn(tvShow)
+        val result = viewModelDetailMov?.getTvShow()?.value?.data
+        verify(dataRepository).getDetailTvShow(tvShowId)
 
-        assertNotNull(dummyDetailTv)
-        assertEquals(tvShow.value!!.id, viewModelDetailMov?.getDetailTv(tvShow.value!!.id)?.value?.id)
-        assertEquals(tvShow.value!!.titleTv, viewModelDetailMov?.getDetailTv(tvShow.value!!.id)?.value?.title)
-        assertEquals(tvShow.value!!.imagePoster, viewModelDetailMov?.getDetailTv(tvShow.value!!.id)?.value?.imagePath)
+        assertNotNull(result)
 
-        viewModelDetailMov?.getDetailTv(tvShow.value!!.id)?.observeForever(observerDetailTv)
-        verify(observerDetailTv).onChanged(dummyDetailTv)
+        assertEquals(listTvShows.tvShowId, result?.tvShowId)
+        assertEquals(listTvShows.titleTvShow, result?.titleTvShow)
+        assertEquals(listTvShows.imageTvShow, result?.imageTvShow)
+        assertEquals("0.0", result?.rating)
+        assertEquals("Returning Series", result?.status)
+        assertEquals("2002-09-08", result?.releaseDate)
+        assertEquals("135", result?.time)
+        assertEquals("Big Brother Famosos is the celebrity version of Big Brother Portugal.", result?.synopsis)
 
+        viewModelDetailMov?.getTvShow()?.observeForever(observerDetailTv)
+        verify(observerDetailTv).onChanged(dummyData)
     }
 
 }

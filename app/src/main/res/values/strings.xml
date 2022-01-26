@@ -14,4 +14,9 @@
     <string name="imagepreview">imagePreview</string>
     <string name="imagestar">imageStar</string>
     <string name="imagetime">imageTime</string>
+    <string name="menu_favorite">menu_favorite</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="status">Status</string>
+    <string name="your_favorite_film">Your favorite film</string>
 </resources>

@@ -1,12 +1,12 @@
 package com.samsul.moviecatalogue.utils
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.samsul.moviecatalogue.data.repository.DataRepository
 import com.samsul.moviecatalogue.di.Injection
 import com.samsul.moviecatalogue.ui.detail.DetailViewModel
+import com.samsul.moviecatalogue.ui.fragment.bookmark.BookmarkViewModel
 import com.samsul.moviecatalogue.ui.fragment.movie.MovieViewModel
 import com.samsul.moviecatalogue.ui.fragment.tvshow.TvShowViewModel
 
@@ -34,6 +34,9 @@ class ViewModelFactory(private val dataRepository: DataRepository): ViewModelPro
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(dataRepository) as T
+            }
+            modelClass.isAssignableFrom(BookmarkViewModel::class.java) -> {
+                BookmarkViewModel(dataRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: ${modelClass.name}")
         }

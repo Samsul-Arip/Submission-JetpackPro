@@ -15,7 +15,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.lang.StringBuilder
 
 class MainActivityTest {
 
@@ -74,7 +73,7 @@ class MainActivityTest {
 
         onView(withId(R.id.tvDate)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tvGenre)).check(matches(isDisplayed()))
+        onView(withId(R.id.tvStatus)).check(matches(isDisplayed()))
 
         onView(withId(R.id.tvSinopsis)).check(matches(isDisplayed()))
 
@@ -95,7 +94,7 @@ class MainActivityTest {
 
         onView(withId(R.id.tvDate)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.tvGenre)).check(matches(isDisplayed()))
+        onView(withId(R.id.tvStatus)).check(matches(isDisplayed()))
 
         onView(withId(R.id.tvSinopsis)).check(matches(isDisplayed()))
 

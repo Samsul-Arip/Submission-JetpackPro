@@ -9,7 +9,7 @@ import com.samsul.moviecatalogue.vo.Resource
 
 class TvShowViewModel(private val dataRepository: DataRepository): ViewModel(){
 
-    fun listTvShow(): LiveData<Resource<List<DataLocalTvShow>>> = dataRepository.getTvShows()
-
+    fun listTvShowPaged(sort: String): LiveData<Resource<PagedList<DataLocalTvShow>>> =
+        dataRepository.getTvShowAsPaged(sort)
 
 }

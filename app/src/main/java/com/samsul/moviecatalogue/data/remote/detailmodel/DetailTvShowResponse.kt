@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class DetailTvShowResponse(
     @SerializedName("id") val id: String?,
     @SerializedName("backdrop_path") val imagePath: String?,
-    @SerializedName("genres") val genre: List<DataGenre>?,
+    @SerializedName("status") val status: String?,
     @SerializedName("first_air_date") val firstRelease: String?,
     @SerializedName("last_air_date") val lastRelease: String?,
     @SerializedName("original_name") val title: String?,

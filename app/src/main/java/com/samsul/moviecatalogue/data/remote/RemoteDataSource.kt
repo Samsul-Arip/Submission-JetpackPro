@@ -94,7 +94,7 @@ open class RemoteDataSource {
         return tvShows
     }
 
-    fun getDetailMovie(id: String): LiveData<ApiResponse<DetailMovieResponse>> {
+    fun getDetailMovie(id: Int): LiveData<ApiResponse<DetailMovieResponse>> {
         EspressoIdlingResource.increment()
         val resultDetail = MutableLiveData<ApiResponse<DetailMovieResponse>>()
         handler.postDelayed({
@@ -124,7 +124,7 @@ open class RemoteDataSource {
         return resultDetail
     }
 
-    fun getDetailTv(id: String): LiveData<ApiResponse<DetailTvShowResponse>>{
+    fun getDetailTv(id: Int): LiveData<ApiResponse<DetailTvShowResponse>>{
         EspressoIdlingResource.increment()
         val detailTvShow = MutableLiveData<ApiResponse<DetailTvShowResponse>>()
         handler.postDelayed({
@@ -157,25 +157,4 @@ open class RemoteDataSource {
     fun showLogs(message: String) {
         Log.d(TAG, message)
     }
-
-//    interface ListMovieCallback {
-//        fun onResponse(movieResponse: List<DataMovie>)
-//    }
-//
-//    interface ListTvShowCallback {
-//        fun onResponse(tvResponse: List<DataTvShow>)
-//    }
-//
-//    interface DetailMovieCallback {
-//        fun onResponse(detailMovieResponse: DetailMovieResponse)
-//    }
-//
-//    interface DetailTvCallback {
-//        fun onResponse(detailTvResponse: DetailTvShowResponse)
-//    }
-
-
-
-
-
 }
