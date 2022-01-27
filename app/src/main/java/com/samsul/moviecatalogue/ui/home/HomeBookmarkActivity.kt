@@ -28,9 +28,9 @@ class HomeBookmarkActivity : AppCompatActivity() {
     private fun setViewPager2() {
         val fragmentList = listOf(MovieBookmarkFragment(), TvShowsBookmarkFragment())
         val tabTitle = listOf(resources.getString(R.string.movies), resources.getString(R.string.tv_show))
-        binding.viewPager2.adapter = SectionPagerAdapter(fragmentList, supportFragmentManager, lifecycle)
+        binding.viewPager2Bookmark.adapter = SectionPagerAdapter(fragmentList, supportFragmentManager, lifecycle)
 
-        TabLayoutMediator(binding.tabsBookmark, binding.viewPager2){tab, position ->
+        TabLayoutMediator(binding.tabsBookmark, binding.viewPager2Bookmark){tab, position ->
             tab.text = tabTitle[position]
         }.attach()
     }

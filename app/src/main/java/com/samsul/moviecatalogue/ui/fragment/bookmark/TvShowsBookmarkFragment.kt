@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.samsul.moviecatalogue.data.local.entity.DataLocalTvShow
 import com.samsul.moviecatalogue.databinding.FragmentTvShowsBookmarkBinding
 import com.samsul.moviecatalogue.ui.detail.DetailActivity
+import com.samsul.moviecatalogue.utils.EspressoIdlingResource
 import com.samsul.moviecatalogue.utils.ViewModelFactory
 
 class TvShowsBookmarkFragment : Fragment() {
@@ -45,6 +46,7 @@ class TvShowsBookmarkFragment : Fragment() {
             setHasFixedSize(true)
             adapter = bookmarkAdapter
         }
+
 
         viewModelTvShow.getTvShowBookmark().observe(viewLifecycleOwner, {
             if(it != null) {

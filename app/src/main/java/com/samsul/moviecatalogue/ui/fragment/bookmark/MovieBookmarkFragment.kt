@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.samsul.moviecatalogue.data.local.entity.DataLocalMovie
 import com.samsul.moviecatalogue.databinding.FragmentMovieBookmarkBinding
 import com.samsul.moviecatalogue.ui.detail.DetailActivity
+import com.samsul.moviecatalogue.utils.EspressoIdlingResource
 import com.samsul.moviecatalogue.utils.ViewModelFactory
 
 
@@ -46,6 +47,7 @@ class MovieBookmarkFragment : Fragment() {
             setHasFixedSize(true)
             adapter = bookmarkAdapter
         }
+
 
         bookmarkViewModel.getMovieBookmark().observe(viewLifecycleOwner, {
             if(it != null) {
