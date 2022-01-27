@@ -55,6 +55,7 @@ class TvShowsBookmarkFragment : Fragment() {
                 Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show()
             }
         })
+
         bookmarkAdapter.setOnItemClickCallBack(object : BookmarkTvShowAdapter.ItemClickCallBack {
             override fun onItemClicked(data: DataLocalTvShow) {
                 val intent = Intent(requireContext(), DetailActivity::class.java)

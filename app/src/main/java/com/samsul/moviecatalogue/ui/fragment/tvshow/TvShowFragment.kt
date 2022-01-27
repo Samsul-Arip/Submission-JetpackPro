@@ -66,7 +66,6 @@ class TvShowFragment : Fragment() {
                 }
             })
 
-
             binding?.rvTvShow?.apply {
                 layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
                 setHasFixedSize(true)

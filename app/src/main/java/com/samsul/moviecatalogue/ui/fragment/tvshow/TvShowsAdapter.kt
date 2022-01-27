@@ -27,6 +27,7 @@ class TvShowsAdapter: PagedListAdapter<DataLocalTvShow, TvShowsAdapter.TvShowVie
                     .placeholder(R.drawable.ic_refresh)
                     .error(R.drawable.ic_error)
                     .into(roundedImage)
+
                 itemView.setOnClickListener {
                     itemClickCallBack?.onItemClicked(data)
                 }
